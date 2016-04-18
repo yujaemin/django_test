@@ -1,0 +1,4 @@
+*.log
+/venv
+/myvenv
+/www_static
