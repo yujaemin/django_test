@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'r7$p=g$$(#tsw*$0=&04tjcbuvlgz79o%kct%x%871c(@ksjc8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [u'52.79.179.171', u'172.21.80.56', u'172.21.80.59']
 
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'polls',
     'books',
     'mysite',
+    'crawler',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -106,8 +107,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db/db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'crawler',
+        'USER': 'root',
+        'PASSWORD': '4341adsl',
+        'HOST': '127.0.0.1',
+        'PORT': 3306
     }
 }
 

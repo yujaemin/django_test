@@ -32,5 +32,6 @@ urlpatterns = [
     #url(r'', include('polls.urls', namespace="polls")),
     url(r'^$', views.HomeView.as_view(), name='home'),
     url(r'^polls/', include('polls.urls', namespace="polls")),
-    url(r'^books/', include('books.urls', namespace="books"))
+    url(r'^books/', include('books.urls', namespace="books")),
+    url(r'^crawler/', include('crawler.urls', namespace="crawler")),
 ]

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Crawling Site List</h2>
+  <table>
+    <tr>
+      <td>상태</td>
+      <td>사이트명</td>
+      <td>카테고리</td>
+      <td>기본주소</td>
+      <td>최신수집일</td>
+      <td>수집</td>
+      <td>결과</td>
+    </tr>
+    {% for model in object_list %}
+      <tr>
+        <td>{{ model.status }}</td>
+        <td>{{ model.siteName }}</td>
+        <td>{{ model.category }}</td>
+        <td>{{ model.url }}</td>
+        <td>{{ model.latestCrawlTime }}</td>
+        <td><button>시작</button></td>
+        <td><button>확인</button></td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock content %}
