@@ -1,29 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Crawling Site List</h2>
+  <h2>Crawling Data</h2>
   <table>
     <tr>
-      <td>상태</td>
-      <td>사이트명</td>
-      <td>카테고리</td>
-      <td>기본주소</td>
-      <td>최신수집일</td>
-      <td>키워드</td>
-      <td>수집</td>
-      <td>결과</td>
+      <td>제품</td>
+      <td>가격</td>
+      <td>평점</td>
+      <td>좋아요</td>
+      <td>나빠요</td>
+      <td>리뷰 갯수</td>
+      <td>조회수</td>
+      <td>uid</td>
+      <td>크롤링시각</td>
+      <td>게시물생성시각</td>
+      <td>링크주소</td>
+      <td>리뷰확인</td>
     </tr>
-    <form action="/crawler/new_crawl.html" method="post">
       {% for model in object_list %}
         <tr>
-          <td>{{ model.status }}</td>
-          <td>{{ model.siteName }}</td>
-          <td>{{ model.category }}</td>
-          <td>{{ model.url }}</td>
-          <td>{{ model.latestCrawlTime }}</td>
-          <td><input type="text" name="keyword" value=""></td>
-          <td><button>시작</button></td>
-          <td><button>확인</button></td>
+          <td>{{ model.title }}</td>
+          <td>{{ model.price }}</td>
+          <td>{{ model.rating }}</td>
+          <td>{{ model.agreeCount }}</td>
+          <td>{{ model.refuseCount }}</td>
+          <td>{{ model.reviewCount }}</td>
+          <td>{{ model.refCount }}</td>
+          <td>{{ model.uid }}</td>
+          <td>{{ model.crawlTime }}</td>
+          <td>{{ model.createTime }}</td>
+          <td>{{ model.linkUrl }}</td>
+          <td><a href="">확인하기</a></td>
         </tr>
       {% endfor %}
     </form>
