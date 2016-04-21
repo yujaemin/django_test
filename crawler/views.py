@@ -1,10 +1,10 @@
 #-*- coding: utf-8 -*-
 
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.generic import View, TemplateView, ListView
-from .models import EcommerceListItem, CrawlingSiteList
+from .models import EcommerceListItem, CrawlingSiteList, EcommerceReviewItem
 
 import commands
 import urllib2, re
@@ -41,13 +41,18 @@ class NewCrawlView(View):
 
     def post(self, request, *args, **kwargs):
         keyword = request.POST['keyword']
-        category = convert_category(request.POST['category'])
-        cmd = u'curl http://localhost:6800/schedule.json -F project=MAScrapper -F spider=coupanglist -F setting=DOWNLOAD_DELAY=30 -F category={category} -F keyword={keyword}'.format(keyword=keyword, category=category)
-        cmd = cmd.encode('utf8')
-        failure, result = commands.getstatusoutput(cmd)
-        if failure:
-            print 'FAILED!'
-        return HttpResponseRedirect(reverse('crawler:main'))
+        if not keyword or keyword == '' or len(re.findall('\s+', keyword)) > 1:
+            ## 작업 추가..
+            print 'error'
+            return HttpResponseRedirect(reverse('crawler:main'))
+        else:
+            category = convert_category(request.POST['category'])
+            cmd = u'curl http://localhost:6800/schedule.json -F project=MAScrapper -F spider=coupanglist -F setting=DOWNLOAD_DELAY=30 -F category={category} -F keyword={keyword}'.format(keyword=keyword, category=category)
+            cmd = cmd.encode('utf8')
+            failure, result = commands.getstatusoutput(cmd)
+            if failure:
+                print 'FAILED!'
+            return HttpResponseRedirect(reverse('crawler:main'))
 
 class CrawlerListView(TemplateView):
     model = EcommerceListItem
@@ -59,4 +64,14 @@ class CrawlerListView(TemplateView):
         context = super(CrawlerListView, self).get_context_data(**kwargs)
         #context['object_list'] = EcommerceListItem.objects.all()
         context['object_list'] = EcommerceListItem.objects.filter(category=category)
+        return context
+
+class CrawlerReviewView(TemplateView):
+    model = EcommerceReviewItem
+    template_name = 'crawler/ecommerce_review.html'
+
+    def get_context_data(self, **kwargs):
+        uid = self.request.GET['uid']
+        context = super(CrawlerReviewView, self).get_context_data(**kwargs)
+        context['object_list'] = EcommerceReviewItem.objects.filter(uid_id=uid)
         return context

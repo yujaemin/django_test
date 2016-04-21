@@ -4,33 +4,36 @@
   <h2>Crawling Data</h2>
   <table>
     <tr>
-      <td>제품</td>
-      <td>가격</td>
+      <td>상품ID</td>
+      <td>리뷰ID</td>
+      <td>작성자ID</td>
+      <td>이름</td>
+      <td>제목</td>
+      <td>내용</td>
       <td>평점</td>
       <td>좋아요</td>
       <td>나빠요</td>
-      <td>리뷰 갯수</td>
       <td>조회수</td>
-      <td>uid</td>
+      <td>댓글수</td>
       <td>크롤링시각</td>
       <td>게시물생성시각</td>
-      <td>링크주소</td>
-      <td>리뷰확인</td>
+      <td>댓글확인</td>
     </tr>
       {% for model in object_list %}
         <tr>
-          <form action="{% url 'crawler:ecommerce_review' %}" method="get">
+          <td>{{ model.uid_id }}</td>
+          <td>{{ model.reviewId }}</td>
+          <td>{{ model.writerId }}</td>
+          <td>{{ model.writerName }}</td>
           <td>{{ model.title }}</td>
-          <td>{{ model.price }}</td>
+          <td>{{ model.content }}</td>
           <td>{{ model.rating }}</td>
           <td>{{ model.agreeCount }}</td>
           <td>{{ model.refuseCount }}</td>
-          <td>{{ model.reviewCount }}</td>
           <td>{{ model.refCount }}</td>
-          <td><input type="hidden" name="uid" value="{{ model.uid }}">{{ model.uid }}</td>
+          <td>{{ model.commentCount }}</td>
           <td>{{ model.crawlTime }}</td>
           <td>{{ model.createTime }}</td>
-          <td>{{ model.linkUrl }}</td>
           <td><button>보기</button></td>
           </form>
         </tr>

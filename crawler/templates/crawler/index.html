@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
+  {% load staticfiles %}
+  <script type="text/javascript" src="{% static "crawler/js/nullcheck.js" %}"></script>
   <h2>Crawling Site List</h2>
   <table>
     <tr>
@@ -9,7 +11,6 @@
       <td>카테고리</td>
       <td>기본주소</td>
       <td>최신수집일</td>
-      <td>키워드</td>
       <td>수집</td>
       <td>결과</td>
     </tr>
@@ -22,8 +23,7 @@
       <td><input type="hidden" name="category" value="{{ model.category }}">{{ model.category }}</td>
       <td>{{ model.url }}</td>
       <td>{{ model.latestCrawlTime }}</td>
-      <td><input type="text" name="keyword" value=""></td>
-      <td><button>시작</button></td>
+      <td><input type="text" name="keyword" value="" id="txtInput"></td>
       </form>
       <form action="{% url 'crawler:ecommerce_list' %}" method="get">
       <td><input type="hidden" name="category" value="{{ model.category }}"><button>확인</button></td>

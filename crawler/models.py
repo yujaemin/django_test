@@ -21,7 +21,7 @@ class CrawlingSiteList(models.Model):
         # return smart_unicode(self.title)
 
 class EcommerceListItem(models.Model):
-    rClass = models.CharField(max_length=30, default="ecommerceList")
+    rClass = models.CharField(max_length=30, default="ecommlist")
     message = models.CharField(max_length=200, null=True, blank=True)
     status = models.CharField(max_length=10, default="ok")
     crawlTime = models.DateTimeField(default=datetime.datetime.today)
@@ -38,6 +38,29 @@ class EcommerceListItem(models.Model):
     rawData = models.TextField(null=True, blank=True)
     price = models.PositiveIntegerField(null=True, blank=True)
     rating = models.FloatField(null=True, blank=True)
+    totalCount = models.PositiveIntegerField(null=True, blank=True)
+    agreeCount = models.PositiveIntegerField(null=True, blank=True)
+    refuseCount = models.PositiveIntegerField(null=True, blank=True)
+
+    def __unicode__(self):
+        return u'title : %s, status : %s ' %(self.title, self.status)
+        # return smart_unicode(self.title)
+
+class EcommerceReviewItem(models.Model):
+    rClass = models.CharField(max_length=30, default="ecommreview")
+    message = models.CharField(max_length=200, null=True, blank=True)
+    status = models.CharField(max_length=10, default="ok")
+    uid = models.ForeignKey(EcommerceListItem, on_delete=models.CASCADE)
+    reviewId = models.CharField(max_length=30, primary_key=True)
+    writerId = models.CharField(max_length=30, null=True, blank=True)
+    writerName = models.CharField(max_length=30, null=True, blank=True)
+    title = models.CharField(max_length=100)
+    content = models.TextField(null=True, blank=True)
+    rating = models.FloatField(null=True, blank=True)
+    crawlTime = models.DateTimeField(default=datetime.datetime.today)
+    createTime = models.DateTimeField(default=datetime.datetime.today)
+    commentCount = models.PositiveIntegerField(null=True, blank=True)
+    refCount = models.PositiveIntegerField(null=True, blank=True)
     totalCount = models.PositiveIntegerField(null=True, blank=True)
     agreeCount = models.PositiveIntegerField(null=True, blank=True)
     refuseCount = models.PositiveIntegerField(null=True, blank=True)
