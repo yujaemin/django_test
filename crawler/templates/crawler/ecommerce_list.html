@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Crawling Data</h2>
+  <h2>Crawling List</h2>
   <table>
     <tr>
       <td>제품</td>
@@ -19,7 +19,6 @@
     </tr>
       {% for model in object_list %}
         <tr>
-          <form action="{% url 'crawler:ecommerce_review' %}" method="get">
           <td>{{ model.title }}</td>
           <td>{{ model.price }}</td>
           <td>{{ model.rating }}</td>
@@ -27,12 +26,11 @@
           <td>{{ model.refuseCount }}</td>
           <td>{{ model.reviewCount }}</td>
           <td>{{ model.refCount }}</td>
-          <td><input type="hidden" name="uid" value="{{ model.uid }}">{{ model.uid }}</td>
+          <td>{{ model.uid }}</td>
           <td>{{ model.crawlTime }}</td>
           <td>{{ model.createTime }}</td>
           <td>{{ model.linkUrl }}</td>
-          <td><button>보기</button></td>
-          </form>
+          <td><li><a href="{{ model.uid }}">확인</a></td>
         </tr>
       {% endfor %}
   </table>

@@ -59,7 +59,7 @@ class CrawlerListView(TemplateView):
     template_name = 'crawler/ecommerce_list.html'
 
     def get_context_data(self, **kwargs):
-        category = self.request.GET['category']
+        category = kwargs['category']
         category = convert_category(category)
         context = super(CrawlerListView, self).get_context_data(**kwargs)
         #context['object_list'] = EcommerceListItem.objects.all()
@@ -71,7 +71,7 @@ class CrawlerReviewView(TemplateView):
     template_name = 'crawler/ecommerce_review.html'
 
     def get_context_data(self, **kwargs):
-        uid = self.request.GET['uid']
+        uid = kwargs['uid']
         context = super(CrawlerReviewView, self).get_context_data(**kwargs)
         context['object_list'] = EcommerceReviewItem.objects.filter(uid_id=uid)
         return context

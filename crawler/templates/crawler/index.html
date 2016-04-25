@@ -20,14 +20,12 @@
       <td>{{ model.siteName }}</td>
       <form action="{% url 'crawler:new_crawl' %}" method="post">
       {% csrf_token %}
-      <td><input type="hidden" name="category" value="{{ model.category }}">{{ model.category }}</td>
+      <td>{{ model.category }}</td>
       <td>{{ model.url }}</td>
       <td>{{ model.latestCrawlTime }}</td>
       <td><input type="text" name="keyword" value="" id="txtInput"></td>
       </form>
-      <form action="{% url 'crawler:ecommerce_list' %}" method="get">
-      <td><input type="hidden" name="category" value="{{ model.category }}"><button>확인</button></td>
-      </form>
+      <td><li><a href="ecommerce_list/{{ model.category }}/">확인</a></td>
     </tr>
     {% endfor %}
   </table>
