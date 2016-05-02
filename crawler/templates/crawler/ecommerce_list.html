@@ -2,6 +2,7 @@
 
 {% block content %}
   <h2>Crawling List</h2>
+  <li><a href="/crawler/ec">전부 수집하기</a><li>
   <table>
     <tr>
       <td>제품</td>
@@ -15,6 +16,7 @@
       <td>크롤링시각</td>
       <td>게시물생성시각</td>
       <td>링크주소</td>
+      <td>리뷰수집</td>
       <td>리뷰확인</td>
     </tr>
       {% for model in object_list %}
@@ -30,7 +32,13 @@
           <td>{{ model.crawlTime }}</td>
           <td>{{ model.createTime }}</td>
           <td>{{ model.linkUrl }}</td>
-          <td><li><a href="{{ model.uid }}">확인</a></td>
+          <form action="{% url 'crawler:new_crawl_ecommerce_review' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" value="{{ request.path }}" name="previous">
+          <input type="hidden" value="{{ model.uid }}" name="uid">
+          <td><button>수집</button></td>
+          </form>
+          <td><li><a href="/crawler/ecommerce_review/coupang/{{ model.uid }}">확인</a></li></td>
         </tr>
       {% endfor %}
   </table>

@@ -36,10 +36,11 @@ class CrawlerMainView(TemplateView):
         print CrawlingSiteList.objects.all()
         return context
 
-class NewCrawlView(View):
+class NewCrawlEcommerceListView(View):
     model = CrawlingSiteList
 
     def post(self, request, *args, **kwargs):
+        print request.POST
         keyword = request.POST['keyword']
         if not keyword or keyword == '' or len(re.findall('\s+', keyword)) > 1:
             ## 작업 추가..
@@ -54,11 +55,34 @@ class NewCrawlView(View):
                 print 'FAILED!'
             return HttpResponseRedirect(reverse('crawler:main'))
 
+class NewCrawlEcommerceReviewView(View):
+    model = EcommerceReviewItem
+
+    def post(self, request, *args, **kwargs):
+        print request.POST
+        uid = request.POST['uid']
+        if not uid or uid == '':
+            ## 작업 추가..
+            print 'error'
+            return HttpResponseRedirect(reverse('crawler:main'))
+        else:
+            cmd = u'curl http://localhost:6800/schedule.json -F project=MAScrapper -F spider=coupangreview -F setting=DOWNLOAD_DELAY=30 -F uid={uid}'.format(uid=uid)
+            cmd = cmd.encode('utf8')
+            failure, result = commands.getstatusoutput(cmd)
+            print "###"
+            print failure
+            print result
+            print "###"
+            if failure:
+                print 'FAILED!'
+            return HttpResponseRedirect(request.POST['previous'])
+
 class CrawlerListView(TemplateView):
     model = EcommerceListItem
     template_name = 'crawler/ecommerce_list.html'
 
     def get_context_data(self, **kwargs):
+        print kwargs
         category = kwargs['category']
         category = convert_category(category)
         context = super(CrawlerListView, self).get_context_data(**kwargs)
@@ -71,6 +95,7 @@ class CrawlerReviewView(TemplateView):
     template_name = 'crawler/ecommerce_review.html'
 
     def get_context_data(self, **kwargs):
+        print '!!'
         uid = kwargs['uid']
         context = super(CrawlerReviewView, self).get_context_data(**kwargs)
         context['object_list'] = EcommerceReviewItem.objects.filter(uid_id=uid)

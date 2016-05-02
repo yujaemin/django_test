@@ -18,14 +18,15 @@
     <tr>
       <td>{{ model.status }}</td>
       <td>{{ model.siteName }}</td>
-      <form action="{% url 'crawler:new_crawl' %}" method="post">
+      <form action="{% url 'crawler:new_crawl_ecommerce_list' %}" method="post">
       {% csrf_token %}
       <td>{{ model.category }}</td>
       <td>{{ model.url }}</td>
       <td>{{ model.latestCrawlTime }}</td>
+      <input type="hidden" name="category" value="{{ model.category }}">
       <td><input type="text" name="keyword" value="" id="txtInput"></td>
       </form>
-      <td><li><a href="ecommerce_list/{{ model.category }}/">확인</a></td>
+      <td><li><a href="/crawler/ecommerce_list/coupang/{{ model.category }}/">확인</a></td>
     </tr>
     {% endfor %}
   </table>
